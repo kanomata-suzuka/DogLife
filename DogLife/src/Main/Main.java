@@ -1,7 +1,5 @@
 package Main;
 
-import java.awt.Menu;
-
 import Service.ScheduleManagement;
 import Util.InputUtil;
 

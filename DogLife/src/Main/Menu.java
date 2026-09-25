@@ -1,9 +1,8 @@
 package Main;
 
 public class Menu {
-
+	//メニュー表示
 	public void display() {
-
 		System.out.println();
 		System.out.println("===== わんライフ =====");
 		System.out.println("1. 予定を登録");

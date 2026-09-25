@@ -1,12 +1,13 @@
 package Service;
 
+import java.util.ArrayList;
+
 import Model.Schedule;
 import Util.InputUtil;
 
 public class ScheduleManagement {
 
-	private Schedule[] schedules = new Schedule[100];
-	private int count = 0;
+	private ArrayList<Schedule> schedules = new ArrayList<>();
 
 	// 登録
 	public void addSchedule() {
@@ -19,13 +20,9 @@ public class ScheduleManagement {
 		String date = InputUtil.inputString("予定日：");
 		String detail = InputUtil.inputString("詳細：");
 
-		schedules[count] = new Schedule(
-				dogName,
-				title,
-				date,
-				detail);
+		Schedule schedule = new Schedule(dogName, title, date, detail);
 
-		count++;
+		schedules.add(schedule);
 
 		System.out.println("予定を登録しました。");
 	}
@@ -36,18 +33,21 @@ public class ScheduleManagement {
 		System.out.println();
 		System.out.println("===== 予定一覧 =====");
 
-		if (count == 0) {
+		if (schedules.isEmpty()) {
+
 			System.out.println("登録されている予定はありません。");
 			return;
 		}
 
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < schedules.size(); i++) {
+
+			Schedule schedule = schedules.get(i);
 
 			System.out.println("No." + (i + 1));
-			System.out.println("犬の名前：" + schedules[i].getDogName());
-			System.out.println("予定名：" + schedules[i].getTitle());
-			System.out.println("予定日：" + schedules[i].getDate());
-			System.out.println("詳細：" + schedules[i].getDetail());
+			System.out.println("犬の名前：" + schedule.getDogName());
+			System.out.println("予定名：" + schedule.getTitle());
+			System.out.println("予定日：" + schedule.getDate());
+			System.out.println("詳細：" + schedule.getDetail());
 			System.out.println("--------------------");
 		}
 	}
@@ -58,7 +58,8 @@ public class ScheduleManagement {
 		System.out.println();
 		System.out.println("===== 予定更新 =====");
 
-		if (count == 0) {
+		if (schedules.isEmpty()) {
+
 			System.out.println("登録されている予定はありません。");
 			return;
 		}
@@ -67,22 +68,29 @@ public class ScheduleManagement {
 
 		int number = InputUtil.inputInt("更新する予定のNo.：");
 
-		if (number < 1 || number > count) {
+		// 入力チェック
+		if (number < 1 || number > schedules.size()) {
+
 			System.out.println("正しいNo.を入力してください。");
 			return;
 		}
 
 		int index = number - 1;
 
+		Schedule schedule = schedules.get(index);
+
 		String dogName = InputUtil.inputString("犬の名前：");
+
 		String title = InputUtil.inputString("予定名：");
+
 		String date = InputUtil.inputString("予定日：");
+
 		String detail = InputUtil.inputString("詳細：");
 
-		schedules[index].setDogName(dogName);
-		schedules[index].setTitle(title);
-		schedules[index].setDate(date);
-		schedules[index].setDetail(detail);
+		schedule.setDogName(dogName);
+		schedule.setTitle(title);
+		schedule.setDate(date);
+		schedule.setDetail(detail);
 
 		System.out.println("予定を更新しました。");
 	}
@@ -93,7 +101,8 @@ public class ScheduleManagement {
 		System.out.println();
 		System.out.println("===== 予定削除 =====");
 
-		if (count == 0) {
+		if (schedules.isEmpty()) {
+
 			System.out.println("登録されている予定はありません。");
 			return;
 		}
@@ -102,19 +111,16 @@ public class ScheduleManagement {
 
 		int number = InputUtil.inputInt("削除する予定のNo.：");
 
-		if (number < 1 || number > count) {
+		// 入力チェック
+		if (number < 1 || number > schedules.size()) {
+
 			System.out.println("正しいNo.を入力してください。");
 			return;
 		}
 
 		int index = number - 1;
 
-		for (int i = index; i < count - 1; i++) {
-			schedules[i] = schedules[i + 1];
-		}
-
-		schedules[count - 1] = null;
-		count--;
+		schedules.remove(index);
 
 		System.out.println("予定を削除しました。");
 	}
@@ -129,21 +135,22 @@ public class ScheduleManagement {
 
 		boolean found = false;
 
-		for (int i = 0; i < count; i++) {
+		for (Schedule schedule : schedules) {
 
-			if (schedules[i].getTitle().contains(keyword)) {
+			if (schedule.getTitle().contains(keyword)) {
 
 				System.out.println("--------------------");
-				System.out.println("犬の名前：" + schedules[i].getDogName());
-				System.out.println("予定名：" + schedules[i].getTitle());
-				System.out.println("予定日：" + schedules[i].getDate());
-				System.out.println("詳細：" + schedules[i].getDetail());
+				System.out.println("犬の名前：" + schedule.getDogName());
+				System.out.println("予定名：" + schedule.getTitle());
+				System.out.println("予定日：" + schedule.getDate());
+				System.out.println("詳細：" + schedule.getDetail());
 
 				found = true;
 			}
 		}
 
 		if (!found) {
+
 			System.out.println("該当する予定がありません。");
 		}
 	}

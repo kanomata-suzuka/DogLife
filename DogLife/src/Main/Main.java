@@ -8,6 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		Menu menu = new Menu();
+
 		ScheduleManagement management = new ScheduleManagement();
 
 		while (true) {
